@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Ácidos Siálicos - Projeto</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .tabs { display: flex; gap: 20px; cursor: pointer; margin-bottom: 20px; }
+        .tab { padding: 10px 15px; background: #ddd; border-radius: 5px; }
+        .tab.active { background: #aaa; }
+        .content { display: none; }
+        .content.active { display: block; }
+
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; }
+        th { background: #eee; }
+        img { max-width: 100%; height: auto; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Projeto – Ácidos Siálicos</h1>
+
+<div class="tabs">
+    <div class="tab active" onclick="openTab('menu')">Menu Inicial</div>
+    <div class="tab" onclick="openTab('genes')">Genes</div>
+    <div class="tab" onclick="openTab('blat')">Blat</div>
+</div>
+
+<!-- ===================== ABA 1 – MENU INICIAL ====================== -->
+<div id="menu" class="content active">
+
+<h2>Ácidos Siálicos</h2>
+
+<p>Os ácidos siálicos (Sia) formam uma família de açúcares de nove carbonos, presentes principalmente nas extremidades de grupos carboidratos, glicolipídeos e glicoproteínas. Estes ácidos se diferenciam de outros açúcares por serem menos utilizados como fonte de energia, mas exercem papel fundamental na regulação de diversos processos biológicos de organismos eucarióticos e procarióticos, tais como desenvolvimento celular, resposta imune, oncogênese e interações entre hospedeiro e patógeno, como vírus e bactérias que utilizam a superfície dos ácidos siálicos para aderirem-se à célula (Dhanabalan, 2024; Zhu, 2024).</p>
+
+<p>A forma mais comum de Sia em seres humanos é o ácido N-Acetilneuramínico (Neu5ac), envolvido em diversos eventos fisiológicos e patológicos. Devido às suas propriedades biológicas multifuncionais e à sua relevância terapêutica, este composto tem despertado cada vez mais interesse na comunidade acadêmica e no eixo econômico, pelo potencial de aplicação nas indústrias alimentícia, cosmética e farmacêutica (Zhao, 2023).</p>
+
+<h2>Biossíntese de ácidos siálicos</h2>
+
+<p>A biossíntese dos ácidos siálicos ocorre predominantemente no citosol, com o processo iniciando com a conversão da N-acetil-D-manosamina (ManNAc), derivada da frutose-6-fosfato, que é condensada com fosfoenolpiruvato (PEP) para formar o ácido N-acetilneuramínico (Neu5Ac). Esta etapa é catalisada pela enzima N-acetilneuraminato sintase. Em seguida, o Neu5Ac é ativado no núcleo por meio da formação do nucleotídeo CMP-Neu5Ac, catalisada pela enzima CMP-sialato sintase (SIGMA-ALDRICH, 2023). </p>
+
+<p>O CMP-Neu5Ac, é então transportado para o lúmen do complexo de Golgi, onde será utilizada pelas sialiltransferases para incorporar o resíduo de ácido siálico aos glicoconjugados.</p>
+
+<p><b>Figura: Biossíntese</b></p>
+<img src="/Sialilacao_process.png" alt="Figura da biossíntese">
+
+</div>
+
+
+<!-- ===================== ABA 2 – GENES (SUPABASE) ====================== -->
+<div id="genes" class="content">
+    <h2>Genes – Banco Supabase</h2>
+    <p>Dados carregados diretamente da tabela <b>Genes</b>.</p>
+
+    <table id="genesTable">
+        <thead>
+            <tr>
+                <th>ID NCBI</th>
+                <th>Símbolo</th>
+                <th>Nome</th>
+                <th>Proteínas</th>
+                <th>Transcritos</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+<!-- ===================== ABA 3 – BLAT ====================== -->
+<div id="blat" class="content">
+    <h2>Resultados BLAT</h2>
+    <img src="/Resultados_Blat.png" alt="Resultados BLAT">
+</div>
+
+
+<!-- ===================== JAVASCRIPT ====================== -->
+<script>
+// ----------- Aba ----------- //
+function openTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+
+    event.target.classList.add('active');
+    document.getElementById(tab).classList.add('active');
+}
+
+// ----------- Supabase ----------- //
+const supabaseUrl = postgresql://postgres:[YOUR_PASSWORD]@db.inidrupdvxrzphlulgxd.supabase.co:5432/postgres;
+const supabaseKey = UFabc@25_bio;
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function loadGenes() {
+    const { data, error } = await supabaseClient
+        .from("Genes")
+        .select("*");
+
+    if (error) {
+        console.error("Erro ao carregar Genes:", error);
+        return;
+    }
+
+    const tbody = document.querySelector("#genesTable tbody");
+    tbody.innerHTML = "";
+
+    data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${row.id_ncbi}</td>
+            <td>${row.symbol}</td>
+            <td>${row.gene_name || ""}</td>
+            <td>${row.proteins || ""}</td>
+            <td>${row.transcripts || ""}</td>
+            <td>${row.gene_type || ""}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+loadGenes();
+</script>
+
+</body>
+</html>
