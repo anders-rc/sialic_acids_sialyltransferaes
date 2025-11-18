@@ -28,14 +28,28 @@
     <div class="tab" onclick="openTab('blat', this)">Blat</div>
 </div>
 
-<!-- MENU -->
+<!MENU>
 <div id="menu" class="content active">
-    <h2>Ácidos Siálicos</h2>
-    <p>Conteúdo...</p>
-    <img src="Sialilacao_process.png">
+
+<h2>Ácidos Siálicos</h2>
+
+<p>Os ácidos siálicos (Sia) formam uma família de açúcares de nove carbonos, presentes principalmente nas extremidades de grupos carboidratos, glicolipídeos e glicoproteínas. Estes ácidos se diferenciam de outros açúcares por serem menos utilizados como fonte de energia, mas exercem papel fundamental na regulação de diversos processos biológicos de organismos eucarióticos e procarióticos, tais como desenvolvimento celular, resposta imune, oncogênese e interações entre hospedeiro e patógeno, como vírus e bactérias que utilizam a superfície dos ácidos siálicos para aderirem-se à célula (Dhanabalan, 2024; Zhu, 2024).</p>
+
+<p>A forma mais comum de Sia em seres humanos é o ácido N-Acetilneuramínico (Neu5ac), envolvido em diversos eventos fisiológicos e patológicos. Devido às suas propriedades biológicas multifuncionais e à sua relevância terapêutica, este composto tem despertado cada vez mais interesse na comunidade acadêmica e no eixo econômico, pelo potencial de aplicação nas indústrias alimentícia, cosmética e farmacêutica (Zhao, 2023).</p>
+
+<h2>Biossíntese de ácidos siálicos</h2>
+
+<p>A biossíntese dos ácidos siálicos ocorre predominantemente no citosol, com o processo iniciando com a conversão da N-acetil-D-manosamina (ManNAc), derivada da frutose-6-fosfato, que é condensada com fosfoenolpiruvato (PEP) para formar o ácido N-acetilneuramínico (Neu5Ac). Esta etapa é catalisada pela enzima N-acetilneuraminato sintase. Em seguida, o Neu5Ac é ativado no núcleo por meio da formação do nucleotídeo CMP-Neu5Ac, catalisada pela enzima CMP-sialato sintase (SIGMA-ALDRICH, 2023). </p>
+
+<p>O CMP-Neu5Ac, é então transportado para o lúmen do complexo de Golgi, onde será utilizada pelas sialiltransferases para incorporar o resíduo de ácido siálico aos glicoconjugados.</p>
+
+<p><b>Figura: Processo de sialilação</b></p>
+<img src="/Sialilacao_process.png" alt="Figura da biossíntese">
+
 </div>
 
-<!-- GENES -->
+
+<!GENES>
 <div id="genes" class="content">
     <h2>Genes</h2>
 
@@ -54,14 +68,14 @@
     </table>
 </div>
 
-<!-- BLAT -->
+<!BLAT>
 <div id="blat" class="content">
     <h2>Resultados BLAT</h2>
     <img src="Resultados_Blat.png">
 </div>
 
 <script>
-// --- Tabs corrigidas ---
+// Tabs 
 function openTab(tab, element) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
@@ -70,7 +84,7 @@ function openTab(tab, element) {
     document.getElementById(tab).classList.add('active');
 }
 
-// --- Supabase correto ---
+// Supabase
 const supabaseUrl = "https://inidrupdvxrzphlulgxd.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluaWRydXBkdnhyenBobHVsZ3hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI2Mzc2MDYsImV4cCI6MjA2ODIxMzYwNn0.NiZQsRtjGOblsaaqFQ7Oc-ffXlnNOvizyXeNX_BrPbU";
 
@@ -108,3 +122,4 @@ loadGenes();
 
 </body>
 </html>
+
