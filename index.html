@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Ácidos Siálicos</title>
+    <title>Ácidos Siálicos - Projeto</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
@@ -20,12 +20,12 @@
 </head>
 <body>
 
-<h1>Ácidos Siálicos</h1>
+<h1>Projeto – Ácidos Siálicos</h1>
 
 <div class="tabs">
-    <div class="tab active" onclick="openTab('menu')">Menu Inicial</div>
-    <div class="tab" onclick="openTab('genes')">Genes</div>
-    <div class="tab" onclick="openTab('blat')">Blat</div>
+    <div class="tab active" onclick="openTab('menu', this)">Menu Inicial</div>
+    <div class="tab" onclick="openTab('genes', this)">Genes</div>
+    <div class="tab" onclick="openTab('blat', this)">Blat</div>
 </div>
 
 <!-- ===================== ABA 1 – MENU INICIAL ====================== -->
@@ -44,7 +44,7 @@
 <p>O CMP-Neu5Ac, é então transportado para o lúmen do complexo de Golgi, onde será utilizada pelas sialiltransferases para incorporar o resíduo de ácido siálico aos glicoconjugados.</p>
 
 <p><b>Figura: Biossíntese</b></p>
-<img src="/Sialilacao_process.png" alt="Processo biológico da sialilação">
+<img src="/Sialilacao_process.png" alt="Figura da biossíntese">
 
 </div>
 
@@ -79,17 +79,17 @@
 
 <!-- ===================== JAVASCRIPT ====================== -->
 <script>
-// ----------- Aba ----------- //
-function openTab(tab) {
+// ----------- Abas ----------- //
+function openTab(tab, element) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
 
-    event.target.classList.add('active');
+    element.classList.add('active');
     document.getElementById(tab).classList.add('active');
 }
 
 // ----------- Supabase ----------- //
-const supabaseUrl = postgres:[UFabc@25_bio]@db.inidrupdvxrzphlulgxd.supabase.co:5432/postgres;
+const supabaseUrl = postgres:[YOUR_PASSWORD]@db.inidrupdvxrzphlulgxd.supabase.co:5432/postgres;
 const supabaseKey = UFabc@25_bio;
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
@@ -125,6 +125,3 @@ loadGenes();
 
 </body>
 </html>
-
-
-
