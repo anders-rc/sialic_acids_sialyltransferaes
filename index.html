@@ -32,7 +32,6 @@
     <div class="tab" onclick="openTab('blatDiagram', this)">BLAT Diagram</div>
 </div>
 
-<!-- MENU -->
 <div id="menu" class="content active">
     <h2>Ácidos Siálicos</h2>
 
@@ -42,7 +41,6 @@
     <img src="Sialilacao_process.png" alt="Figura da biossíntese">
 </div>
 
-<!-- GENES -->
 <div id="genes" class="content">
     <h2>Genes</h2>
 
@@ -61,13 +59,11 @@
     </table>
 </div>
 
-<!-- BLAT -->
 <div id="blat" class="content">
 
     <table id="blatTable">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>ID NCBI</th>
                 <th>Query</th>
                 <th>Score</th>
@@ -80,14 +76,12 @@
     
 </div>
 
-<!-- BLASTp -->
 <div id="blastp" class="content">
     <h2>Resultados BLASTp</h2>
 
     <table id="blastpTable">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>ID NCBI</th>
                 <th>Descrição</th>
                 <th>Max Score</th>
@@ -99,7 +93,6 @@
     </table>
 </div>
 
-<!-- BLAT DIAGRAM (correto agora) -->
 <div id="blatDiagram" class="content">
     <h2>BLAT Diagram</h2>
     <img src="Resultados_Blat.png" alt="BLAT Diagram">
@@ -129,6 +122,16 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // ---------------- GENES ---------------- //
 async function loadGenes() {
+    // A tabela "Genes" é a segunda aba. Se você quisesse carregar a tabela
+    // na primeira aba ("Menu"), você teria que mudar o 'if (tab === "genes")'
+    // na função openTab, ou chamar loadGenes() ao carregar a página
+    // se quisesse que ela estivesse visível por padrão.
+    
+    // Como a tabela "Genes" está na sua própria aba, a chamada aqui está correta,
+    // garantindo que os dados sejam buscados ao clicar na aba 'Genes'.
+    // Para que os dados sejam exibidos *assim que a página carrega* (e a aba
+    // "Genes" é a ativa), vamos fazer a chamada no final do script.
+    
     const { data, error } = await supabaseClient
         .from('"Genes"')
         .select("*");
@@ -139,6 +142,9 @@ async function loadGenes() {
     tbody.innerHTML = "";
 
     data.forEach(row => {
+        // Certifique-se de que o nome das colunas corresponde ao seu esquema
+        // do Supabase. Use o operador de coalescência nula (??) para
+        // evitar "undefined" se o campo puder ser nulo.
         tbody.innerHTML += `
             <tr>
                 <td>${row.id_ncbi}</td>
@@ -166,7 +172,6 @@ async function loadBLAT() {
     data.forEach(row => {
         tbody.innerHTML += `
             <tr>
-                <td>${row.id_blat}</td>
                 <td>${row.id_ncbi}</td>
                 <td>${row.query}</td>
                 <td>${row.score}</td>
@@ -191,7 +196,6 @@ async function loadBLASTp() {
     data.forEach(row => {
         tbody.innerHTML += `
             <tr>
-                <td>${row.id_blastp}</td>
                 <td>${row.id_ncbi}</td>
                 <td>${row.description ?? ""}</td>
                 <td>${row.max_score}</td>
@@ -201,6 +205,27 @@ async function loadBLASTp() {
         `;
     });
 }
+
+// Carrega a tabela GENES (ou a tabela da aba ativa que você quiser)
+// assim que o script é carregado/executado.
+// NOTA: A aba 'Menu' é a ativa por padrão, mas a 'Genes' é a primeira a
+// exibir uma tabela do BD. Se você quer que a 'Genes' carregue por padrão:
+// 1. Torne a aba 'Genes' a 'active' no HTML.
+// 2. Chame loadGenes() aqui.
+// Como o código original tem 'Menu' ativo, não vamos chamar nenhuma função aqui.
+// Se você quiser que a aba 'Genes' seja a padrão:
+// 1. Mude a classe 'active' para a div 'genes'.
+// 2. Mude a classe 'active' para o botão 'Genes'.
+// 3. Chame loadGenes(); aqui.
+//
+// Para o seu propósito atual de **corrigir** o código, a lógica de carregamento
+// condicional dentro de `openTab` está correta e só precisava ser **revisada**
+// quanto aos nomes das colunas (já foram revisados acima).
+
+// Se você quisesse que a tabela 'Genes' fosse a *primeira* a ser exibida,
+// a correção seria nas classes `active` do HTML e na chamada abaixo:
+// window.onload = loadGenes; // Ou simplesmente loadGenes();
+
 </script>
 
 </body>
