@@ -22,7 +22,7 @@
 </head>
 <body>
 
-<h1>Ácidos Siálicos</h1>
+<h1>Introdução - Ácidos Siálicos</h1>
 
 <div class="tabs">
     <div class="tab active" onclick="openTab('menu', this)">Menu</div>
@@ -114,7 +114,7 @@
 
     
 <script>
-// ---------------- TABS ---------------- //
+// -- Tabs --- //
 function openTab(tab, element) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
@@ -128,14 +128,14 @@ function openTab(tab, element) {
     if (tab === "blastp") loadBLASTp();
 }
 
-// ---------------- SUPABASE ---------------- //
+// --API Supabase- //
 
 const supabaseUrl = "https://inidrupdvxrzphlulgxd.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluaWRydXBkdnhyenBobHVsZ3hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI2Mzc2MDYsImV4cCI6MjA2ODIxMzYwNn0.NiZQsRtjGOblsaaqFQ7Oc-ffXlnNOvizyXeNX_BrPbU";
 
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-// ---------------- GENES ---------------- //
+// Tebela GENES  //
 async function loadGenes() {
 
     
@@ -166,7 +166,7 @@ async function loadGenes() {
     });
 }
 
-// ---------------- BLAT ---------------- //
+// Tabela BLAT  //
 async function loadBLAT() {
     const { data, error } = await supabaseClient
         .from('blat')
@@ -197,7 +197,7 @@ async function loadBLAT() {
     });
 }
 
-// ---------------- BLASTp ---------------- //
+// Tabela BLASTp  //
 async function loadBLASTp() {
     const { data, error } = await supabaseClient
         .from('blastp')
@@ -230,6 +230,7 @@ async function loadBLASTp() {
 
 </body>
 </html>
+
 
 
 
