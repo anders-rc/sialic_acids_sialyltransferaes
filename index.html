@@ -12,9 +12,11 @@
         .tab.active { background: #aaa; }
         .content { display: none; }
         .content.active { display: block; }
+
         table { border-collapse: collapse; width: 100%; margin-top: 20px; }
         th, td { border: 1px solid #ccc; padding: 8px; }
         th { background: #eee; }
+
         img { max-width: 100%; height: auto; margin-top: 20px; }
     </style>
 </head>
@@ -23,33 +25,23 @@
 <h1>Ácidos Siálicos</h1>
 
 <div class="tabs">
-    <div class="tab active" onclick="openTab('menu', this)">Menu Inicial</div>
+    <div class="tab active" onclick="openTab('menu', this)">Menu</div>
     <div class="tab" onclick="openTab('genes', this)">Genes</div>
-    <div class="tab" onclick="openTab('blat', this)">Blat</div>
+    <div class="tab" onclick="openTab('blat', this)">BLAT</div>
+    <div class="tab" onclick="openTab('blastp', this)">BLASTp</div>
 </div>
 
 <!MENU>
 <div id="menu" class="content active">
+    <h2>Ácidos Siálicos</h2>
 
-<h2>Ácidos Siálicos</h2>
+    <p>Os ácidos siálicos (Sia)...</p>
 
-<p>Os ácidos siálicos (Sia) formam uma família de açúcares de nove carbonos, presentes principalmente nas extremidades de grupos carboidratos, glicolipídeos e glicoproteínas. Estes ácidos se diferenciam de outros açúcares por serem menos utilizados como fonte de energia, mas exercem papel fundamental na regulação de diversos processos biológicos de organismos eucarióticos e procarióticos, tais como desenvolvimento celular, resposta imune, oncogênese e interações entre hospedeiro e patógeno, como vírus e bactérias que utilizam a superfície dos ácidos siálicos para aderirem-se à célula (Dhanabalan, 2024; Zhu, 2024).</p>
-
-<p>A forma mais comum de Sia em seres humanos é o ácido N-Acetilneuramínico (Neu5ac), envolvido em diversos eventos fisiológicos e patológicos. Devido às suas propriedades biológicas multifuncionais e à sua relevância terapêutica, este composto tem despertado cada vez mais interesse na comunidade acadêmica e no eixo econômico, pelo potencial de aplicação nas indústrias alimentícia, cosmética e farmacêutica (Zhao, 2023).</p>
-
-<h2>Biossíntese de ácidos siálicos</h2>
-
-<p>A biossíntese dos ácidos siálicos ocorre predominantemente no citosol, com o processo iniciando com a conversão da N-acetil-D-manosamina (ManNAc), derivada da frutose-6-fosfato, que é condensada com fosfoenolpiruvato (PEP) para formar o ácido N-acetilneuramínico (Neu5Ac). Esta etapa é catalisada pela enzima N-acetilneuraminato sintase. Em seguida, o Neu5Ac é ativado no núcleo por meio da formação do nucleotídeo CMP-Neu5Ac, catalisada pela enzima CMP-sialato sintase (SIGMA-ALDRICH, 2023). </p>
-
-<p>O CMP-Neu5Ac, é então transportado para o lúmen do complexo de Golgi, onde será utilizada pelas sialiltransferases para incorporar o resíduo de ácido siálico aos glicoconjugados.</p>
-
-<p><b>Figura 1: Processo de sialilação</b></p>
-<img src="/Sialilacao_process.png" alt="Figura da biossíntese">
-
+    <h2>Biossíntese</h2>
+    <img src="Sialilacao_process.png" alt="Figura da biossíntese">
 </div>
 
-
-<!gENES>
+<!GENES>
 <div id="genes" class="content">
     <h2>Genes</h2>
 
@@ -68,62 +60,144 @@
     </table>
 </div>
 
-<!-- BLAT -->
+<!BLAT>
 <div id="blat" class="content">
     <h2>Resultados BLAT</h2>
+
+    <table id="blatTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID NCBI</th>
+                <th>Query</th>
+                <th>Score</th>
+                <th>Identity</th>
+                <th>Chrom</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
     <img src="Resultados_Blat.png">
 </div>
 
+<!BLASTp>
+<div id="blastp" class="content">
+    <h2>Resultados BLASTp</h2>
+
+    <table id="blastpTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID NCBI</th>
+                <th>Descrição</th>
+                <th>Max Score</th>
+                <th>E-value</th>
+                <th>% Identidade</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
 <script>
-// Tabs
+// -Tabs -//
 function openTab(tab, element) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
 
     element.classList.add('active');
     document.getElementById(tab).classList.add('active');
+
+    // Carregar ao abrir
+    if (tab === "genes") loadGenes();
+    if (tab === "blat") loadBLAT();
+    if (tab === "blastp") loadBLASTp();
 }
 
-// Supabase
+//  SUPABASE  //
 const supabaseUrl = "https://inidrupdvxrzphlulgxd.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluaWRydXBkdnhyenBobHVsZ3hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI2Mzc2MDYsImV4cCI6MjA2ODIxMzYwNn0.NiZQsRtjGOblsaaqFQ7Oc-ffXlnNOvizyXeNX_BrPbU";
 
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
+// gENES  //
 async function loadGenes() {
-    console.log("Carregando genes...");
-
     const { data, error } = await supabaseClient
-        .from("genes")   // ← TABELA CORRETA EM MINÚSCULO
+        .from('"Genes"') 
         .select("*");
 
-    if (error) {
-        console.error("Erro ao carregar Genes:", error);
-        return;
-    }
-
-    console.log("Genes:", data);
+    if (error) { console.error(error); return; }
 
     const tbody = document.querySelector("#genesTable tbody");
     tbody.innerHTML = "";
 
     data.forEach(row => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${row.id_ncbi}</td>
-            <td>${row.symbol}</td>
-            <td>${row.gene_name ?? ""}</td>
-            <td>${row.proteins ?? ""}</td>
-            <td>${row.transcripts ?? ""}</td>
-            <td>${row.gene_type ?? ""}</td>
+        tbody.innerHTML += `
+            <tr>
+                <td>${row.id_ncbi}</td>
+                <td>${row.symbol}</td>
+                <td>${row.gene_name ?? ""}</td>
+                <td>${row.proteins ?? ""}</td>
+                <td>${row.transcripts ?? ""}</td>
+                <td>${row.gene_type ?? ""}</td>
+                <td>${row.synonym ?? ""}</td>
+                <td>${row.mane_select ?? ""}</td>
+                <td>${row.refseq_summary ?? ""}</td>
+            </tr>
         `;
-        tbody.appendChild(tr);
     });
 }
 
-loadGenes();
+// BLAT  //
+async function loadBLAT() {
+    const { data, error } = await supabaseClient
+        .from('"BLAT"')
+        .select("*");
+
+    if (error) { console.error(error); return; }
+
+    const tbody = document.querySelector("#blatTable tbody");
+    tbody.innerHTML = "";
+
+    data.forEach(row => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${row.id_ncbi}</td>
+                <td>${row.query}</td>
+                <td>${row.score}</td>
+                <td>${row.identity}</td>
+                <td>${row.chrom}</td>
+            </tr>
+        `;
+    });
+}
+
+//  BLASTp  //
+async function loadBLASTp() {
+    const { data, error } = await supabaseClient
+        .from('"BLASTp"')
+        .select("*");
+
+    if (error) { console.error(error); return; }
+
+    const tbody = document.querySelector("#blastpTable tbody");
+    tbody.innerHTML = "";
+
+    data.forEach(row => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${row.id_blastp}</td>
+                <td>${row.id_ncbi}</td>
+                <td>${row.description ?? ""}</td>
+                <td>${row.max_score}</td>
+                <td>${row.e_value}</td>
+                <td>${row.per_ident}</td>
+            </tr>
+        `;
+    });
+}
 </script>
 
 </body>
 </html>
-
