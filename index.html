@@ -126,7 +126,7 @@ async function loadGenes() {
 
     
     const { data, error } = await supabaseClient
-        .from('"Genes"')
+        .from('genes')
         .select("*");
 
     if (error) { console.error(error); return; }
@@ -152,7 +152,7 @@ async function loadGenes() {
 // ---------------- BLAT ---------------- //
 async function loadBLAT() {
     const { data, error } = await supabaseClient
-        .from('"BLAT"')
+        .from('blat')
         .select("*");
 
     if (error) { console.error(error); return; }
@@ -176,7 +176,7 @@ async function loadBLAT() {
 // ---------------- BLASTp ---------------- //
 async function loadBLASTp() {
     const { data, error } = await supabaseClient
-        .from('"BLASTp"')
+        .from('blastp')
         .select("*");
 
     if (error) { console.error(error); return; }
@@ -202,6 +202,7 @@ async function loadBLASTp() {
 
 </body>
 </html>
+
 
 
 
