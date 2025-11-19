@@ -115,6 +115,8 @@ function openTab(tab, element) {
 }
 
 // ---------------- SUPABASE ---------------- //
+
+import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = "https://inidrupdvxrzphlulgxd.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluaWRydXBkdnhyenBobHVsZ3hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI2Mzc2MDYsImV4cCI6MjA2ODIxMzYwNn0.NiZQsRtjGOblsaaqFQ7Oc-ffXlnNOvizyXeNX_BrPbU";
 
@@ -122,15 +124,7 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // ---------------- GENES ---------------- //
 async function loadGenes() {
-    // A tabela "Genes" é a segunda aba. Se você quisesse carregar a tabela
-    // na primeira aba ("Menu"), você teria que mudar o 'if (tab === "genes")'
-    // na função openTab, ou chamar loadGenes() ao carregar a página
-    // se quisesse que ela estivesse visível por padrão.
-    
-    // Como a tabela "Genes" está na sua própria aba, a chamada aqui está correta,
-    // garantindo que os dados sejam buscados ao clicar na aba 'Genes'.
-    // Para que os dados sejam exibidos *assim que a página carrega* (e a aba
-    // "Genes" é a ativa), vamos fazer a chamada no final do script.
+
     
     const { data, error } = await supabaseClient
         .from('"Genes"')
@@ -142,9 +136,7 @@ async function loadGenes() {
     tbody.innerHTML = "";
 
     data.forEach(row => {
-        // Certifique-se de que o nome das colunas corresponde ao seu esquema
-        // do Supabase. Use o operador de coalescência nula (??) para
-        // evitar "undefined" se o campo puder ser nulo.
+
         tbody.innerHTML += `
             <tr>
                 <td>${row.id_ncbi}</td>
@@ -206,27 +198,9 @@ async function loadBLASTp() {
     });
 }
 
-// Carrega a tabela GENES (ou a tabela da aba ativa que você quiser)
-// assim que o script é carregado/executado.
-// NOTA: A aba 'Menu' é a ativa por padrão, mas a 'Genes' é a primeira a
-// exibir uma tabela do BD. Se você quer que a 'Genes' carregue por padrão:
-// 1. Torne a aba 'Genes' a 'active' no HTML.
-// 2. Chame loadGenes() aqui.
-// Como o código original tem 'Menu' ativo, não vamos chamar nenhuma função aqui.
-// Se você quiser que a aba 'Genes' seja a padrão:
-// 1. Mude a classe 'active' para a div 'genes'.
-// 2. Mude a classe 'active' para o botão 'Genes'.
-// 3. Chame loadGenes(); aqui.
-//
-// Para o seu propósito atual de **corrigir** o código, a lógica de carregamento
-// condicional dentro de `openTab` está correta e só precisava ser **revisada**
-// quanto aos nomes das colunas (já foram revisados acima).
-
-// Se você quisesse que a tabela 'Genes' fosse a *primeira* a ser exibida,
-// a correção seria nas classes `active` do HTML e na chamada abaixo:
-// window.onload = loadGenes; // Ou simplesmente loadGenes();
 
 </script>
 
 </body>
 </html>
+
