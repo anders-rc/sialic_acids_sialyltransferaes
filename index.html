@@ -48,11 +48,14 @@
         <thead>
             <tr>
                 <th>ID NCBI</th>
-                <th>Símbolo</th>
-                <th>Nome</th>
-                <th>Proteínas</th>
-                <th>Transcritos</th>
-                <th>Tipo</th>
+                <th>Symbol</th>
+                <th>Gene Name</th>
+                <th>Proteins</th>
+                <th>Transcripts</th>
+                <th>Gene Type</th>
+                <th>Synonym</th>
+                <th>MANE Select</th>
+                <th>RefSeq Summary</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -67,8 +70,15 @@
                 <th>ID NCBI</th>
                 <th>Query</th>
                 <th>Score</th>
-                <th>Identity</th>
-                <th>Chrom</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Q Size</th>
+                <th>Indentity</th>
+                <th>Chromossome</th>
+                <th>Start_B</th>
+                <th>End_B</th>
+                <th>Span</th>
+                <th>Symbol</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -83,10 +93,14 @@
         <thead>
             <tr>
                 <th>ID NCBI</th>
-                <th>Descrição</th>
+                <th>Description</th>
                 <th>Max Score</th>
-                <th>E-value</th>
-                <th>% Identidade</th>
+                <th>Total Score</th>
+                <th>Query Cover</th>
+                <th>E Value</th>
+                <th>Per Identity</th>
+                <th>Acc Len</th>
+                <th>Symbol</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -144,6 +158,9 @@ async function loadGenes() {
                 <td>${row.proteins ?? ""}</td>
                 <td>${row.transcripts ?? ""}</td>
                 <td>${row.gene_type ?? ""}</td>
+                <td>${row.synonym ?? ""}</td>
+                <td>${row.mane_select ?? ""}</td>
+                <td>${row.refseq_summary ?? ""}</td>
             </tr>
         `;
     });
@@ -166,8 +183,15 @@ async function loadBLAT() {
                 <td>${row.id_ncbi}</td>
                 <td>${row.query}</td>
                 <td>${row.score}</td>
+                <td>${row.start}</td>
+                <td>${row.end}</td>
+                <td>${row.qsize}</td>
                 <td>${row.identity}</td>
                 <td>${row.chrom}</td>
+                <td>${row.start_b}</td>
+                <td>${row.end_b}</td>
+                <td>${row.span}</td>
+                <td>${row.symbol}</td>
             </tr>
         `;
     });
@@ -190,8 +214,12 @@ async function loadBLASTp() {
                 <td>${row.id_ncbi}</td>
                 <td>${row.description ?? ""}</td>
                 <td>${row.max_score}</td>
+                <td>${row.total_score}</td>
+                <td>${row.query_cover}</td>
                 <td>${row.e_value}</td>
                 <td>${row.per_ident}</td>
+                <td>${row.acc_len}</td>
+                <td>${row.symbol}</td>
             </tr>
         `;
     });
@@ -202,6 +230,7 @@ async function loadBLASTp() {
 
 </body>
 </html>
+
 
 
 
