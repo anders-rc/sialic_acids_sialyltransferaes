@@ -29,6 +29,7 @@
     <div class="tab" onclick="openTab('genes', this)">Genes</div>
     <div class="tab" onclick="openTab('blat', this)">BLAT</div>
     <div class="tab" onclick="openTab('blastp', this)">BLASTp</div>
+    <div class="tab" onclick="openTab('blatDiagram', this)">BLAT Diagram</div>
 </div>
 
 <!-- MENU -->
@@ -98,9 +99,8 @@
     </table>
 </div>
 
-
-<!-- BLAT DIAGRAM -->
-<div id="blatDiagram" class="content active">
+<!-- BLAT DIAGRAM (correto agora) -->
+<div id="blatDiagram" class="content">
     <h2>BLAT Diagram</h2>
     <img src="Resultados_Blat.png" alt="BLAT Diagram">
 </div>
@@ -119,7 +119,6 @@ function openTab(tab, element) {
     if (tab === "genes") loadGenes();
     if (tab === "blat") loadBLAT();
     if (tab === "blastp") loadBLASTp();
-    if (tab === "blatDiagram") loadblatDiagram();
 }
 
 // ---------------- SUPABASE ---------------- //
@@ -131,7 +130,7 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 // ---------------- GENES ---------------- //
 async function loadGenes() {
     const { data, error } = await supabaseClient
-        .from('"Genes"')  // TABELA COM MAIÚSCULAS
+        .from('"Genes"')
         .select("*");
 
     if (error) { console.error(error); return; }
@@ -206,4 +205,3 @@ async function loadBLASTp() {
 
 </body>
 </html>
-
