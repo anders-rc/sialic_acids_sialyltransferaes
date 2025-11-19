@@ -29,9 +29,10 @@
     <div class="tab" onclick="openTab('genes', this)">Genes</div>
     <div class="tab" onclick="openTab('blat', this)">BLAT</div>
     <div class="tab" onclick="openTab('blastp', this)">BLASTp</div>
+    <div class="tab" onclick="openTab('blatDiagram', this)">BLAT Diagram</div>
 </div>
 
-<!MENU>
+<!-- MENU -->
 <div id="menu" class="content active">
     <h2>Ácidos Siálicos</h2>
 
@@ -41,164 +42,9 @@
     <img src="Sialilacao_process.png" alt="Figura da biossíntese">
 </div>
 
-<!GENES>
+<!-- GENES -->
 <div id="genes" class="content">
     <h2>Genes</h2>
 
     <table id="genesTable">
         <thead>
-            <tr>
-                <th>ID NCBI</th>
-                <th>Symbol</th>
-                <th>Gene Name</th>
-                <th>Proteins</th>
-                <th>Transcripts</th>
-                <th>Gene Type</th>
-                <th>Synonym</th>
-                <th>MANE Select</th>
-                <th>Refseq summary</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
-
-<!BLAT>
-<div id="blat" class="content">
-    <h2>Resultados BLAT</h2>
-
-    <table id="blatTable">
-        <thead>
-            <tr>
-                <th>ID NCBI</th>
-                <th>Query</th>
-                <th>Score</th>
-                <th>Identity</th>
-                <th>Chrom</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-    <img src="Resultados_Blat.png">
-</div>
-
-<!BLASTp>
-<div id="blastp" class="content">
-    <h2>Resultados BLASTp</h2>
-
-    <table id="blastpTable">
-        <thead>
-            <tr>
-                <th>ID NCBI</th>
-                <th>Descrição</th>
-                <th>Max Score</th>
-                <th>E-value</th>
-                <th>% Identidade</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
-
-<script>
-// -Tabs -//
-function openTab(tab, element) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-
-    element.classList.add('active');
-    document.getElementById(tab).classList.add('active');
-
-    // Carregar ao abrir
-    if (tab === "genes") loadGenes();
-    if (tab === "blat") loadBLAT();
-    if (tab === "blastp") loadBLASTp();
-}
-
-//  SUPABASE  //
-const supabaseUrl = "https://inidrupdvxrzphlulgxd.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluaWRydXBkdnhyenBobHVsZ3hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI2Mzc2MDYsImV4cCI6MjA2ODIxMzYwNn0.NiZQsRtjGOblsaaqFQ7Oc-ffXlnNOvizyXeNX_BrPbU";
-
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-
-// gENES  //
-async function loadGenes() {
-    const { data, error } = await supabaseClient
-        .from('"Genes"') 
-        .select("*");
-
-    if (error) { console.error(error); return; }
-
-    const tbody = document.querySelector("#genesTable tbody");
-    tbody.innerHTML = "";
-
-    data.forEach(row => {
-        tbody.innerHTML += `
-            <tr>
-                <td>${row.id_ncbi}</td>
-                <td>${row.symbol}</td>
-                <td>${row.gene_name ?? ""}</td>
-                <td>${row.proteins ?? ""}</td>
-                <td>${row.transcripts ?? ""}</td>
-                <td>${row.gene_type ?? ""}</td>
-                <td>${row.synonym ?? ""}</td>
-                <td>${row.mane_select ?? ""}</td>
-                <td>${row.refseq_summary ?? ""}</td>
-            </tr>
-        `;
-    });
-}
-
-// BLAT  //
-async function loadBLAT() {
-    const { data, error } = await supabaseClient
-        .from('"BLAT"')
-        .select("*");
-
-    if (error) { console.error(error); return; }
-
-    const tbody = document.querySelector("#blatTable tbody");
-    tbody.innerHTML = "";
-
-    data.forEach(row => {
-        tbody.innerHTML += `
-            <tr>
-                <td>${row.id_ncbi}</td>
-                <td>${row.query}</td>
-                <td>${row.score}</td>
-                <td>${row.identity}</td>
-                <td>${row.chrom}</td>
-            </tr>
-        `;
-    });
-}
-
-//  BLASTp  //
-async function loadBLASTp() {
-    const { data, error } = await supabaseClient
-        .from('"BLASTp"')
-        .select("*");
-
-    if (error) { console.error(error); return; }
-
-    const tbody = document.querySelector("#blastpTable tbody");
-    tbody.innerHTML = "";
-
-    data.forEach(row => {
-        tbody.innerHTML += `
-            <tr>
-                <td>${row.id_ncbi}</td>
-                <td>${row.description ?? ""}</td>
-                <td>${row.max_score}</td>
-                <td>${row.e_value}</td>
-                <td>${row.per_ident}</td>
-            </tr>
-        `;
-    });
-}
-</script>
-
-</body>
-</html>
-
