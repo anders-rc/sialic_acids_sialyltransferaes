@@ -49,11 +49,14 @@
         <thead>
             <tr>
                 <th>ID NCBI</th>
-                <th>Símbolo</th>
-                <th>Nome</th>
-                <th>Proteínas</th>
-                <th>Transcritos</th>
-                <th>Tipo</th>
+                <th>Symbol</th>
+                <th>Gene Name</th>
+                <th>Proteins</th>
+                <th>Transcripts</th>
+                <th>Gene Type</th>
+                <th>Synonym</th>
+                <th>MANE Select</th>
+                <th>Refseq summary</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -67,7 +70,6 @@
     <table id="blatTable">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>ID NCBI</th>
                 <th>Query</th>
                 <th>Score</th>
@@ -88,7 +90,6 @@
     <table id="blastpTable">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>ID NCBI</th>
                 <th>Descrição</th>
                 <th>Max Score</th>
@@ -187,7 +188,6 @@ async function loadBLASTp() {
     data.forEach(row => {
         tbody.innerHTML += `
             <tr>
-                <td>${row.id_blastp}</td>
                 <td>${row.id_ncbi}</td>
                 <td>${row.description ?? ""}</td>
                 <td>${row.max_score}</td>
@@ -201,3 +201,4 @@ async function loadBLASTp() {
 
 </body>
 </html>
+
